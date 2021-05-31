@@ -11,55 +11,6 @@ import string
 
 
 def create_index(filenames, index, file_titles):
-    """
-    This function is passed:
-        filenames:      a list of file names (strings)
-
-        index:          a dictionary mapping from terms to file names (i.e., inverted index)
-                        (term -> list of file names that contain that term)
-
-        file_titles:    a dictionary mapping from a file names to the title of the article
-                        in a given file
-                        (file name -> title of article in that file)
-
-    The function will update the index passed in to include the terms in the files
-    in the list filenames.  Also, the file_titles dictionary will be updated to
-    include files in the list of filenames.
-
-    >>> index = {}
-    >>> file_titles = {}
-    >>> create_index(['test1.txt'], index, file_titles)
-    >>> index
-    {'file': ['test1.txt'], '1': ['test1.txt'], 'title': ['test1.txt'], 'apple': ['test1.txt'], 'ball': ['test1.txt'], 'carrot': ['test1.txt']}
-    >>> file_titles
-    {'test1.txt': 'File 1 Title'}
-    >>> index = {}
-    >>> file_titles = {}
-    >>> create_index(['test2.txt'], index, file_titles)
-    >>> index
-    {'file': ['test2.txt'], '2': ['test2.txt'], 'title': ['test2.txt'], 'ball': ['test2.txt'], 'carrot': ['test2.txt'], 'dog': ['test2.txt']}
-    >>> file_titles
-    {'test2.txt': 'File 2 Title'}
-    >>> index = {}
-    >>> file_titles = {}
-    >>> create_index(['test1.txt', 'test2.txt'], index, file_titles)
-    >>> index
-    {'file': ['test1.txt', 'test2.txt'], '1': ['test1.txt'], 'title': ['test1.txt', 'test2.txt'], 'apple': ['test1.txt'], 'ball': ['test1.txt', 'test2.txt'], 'carrot': ['test1.txt', 'test2.txt'], '2': ['test2.txt'], 'dog': ['test2.txt']}
-    >>> index = {}
-    >>> file_titles = {}
-    >>> create_index(['test1.txt', 'test2.txt', 'test2.txt'], index, file_titles)
-    >>> index
-    {'file': ['test1.txt', 'test2.txt'], '1': ['test1.txt'], 'title': ['test1.txt', 'test2.txt'], 'apple': ['test1.txt'], 'ball': ['test1.txt', 'test2.txt'], 'carrot': ['test1.txt', 'test2.txt'], '2': ['test2.txt'], 'dog': ['test2.txt']}
-    >>> file_titles
-    {'test1.txt': 'File 1 Title', 'test2.txt': 'File 2 Title'}
-    >>> index = {'file': ['test1.txt'], '1': ['test1.txt'], 'title': ['test1.txt'], 'apple': ['test1.txt'], 'ball': ['test1.txt'], 'carrot': ['test1.txt']}
-    >>> file_titles = {'test1.txt': 'File 1 Title'}
-    >>> create_index([], index, file_titles)
-    >>> index
-    {'file': ['test1.txt'], '1': ['test1.txt'], 'title': ['test1.txt'], 'apple': ['test1.txt'], 'ball': ['test1.txt'], 'carrot': ['test1.txt']}
-    >>> file_titles
-    {'test1.txt': 'File 1 Title'}
-    """
     for x in filenames:
         entries = get_file_entries(open(x, "r"))
         for y in entries:
@@ -80,39 +31,6 @@ def get_file_entries(doc):
 
 
 def search(index, query):
-    """
-    This function is passed:
-        index:      a dictionary mapping from terms to file names (inverted index)
-                    (term -> list of file names that contain that term)
-
-        query  :    a query (string), where any letters will be lowercase
-
-    The function returns a list of the names of all the files that contain *all* of the
-    terms in the query (using the index passed in).
-
-    >>> index = {}
-    >>> create_index(['test1.txt', 'test2.txt'], index, {})
-    >>> search(index, 'apple')
-    ['test1.txt']
-    >>> search(index, 'ball')
-    ['test1.txt', 'test2.txt']
-    >>> search(index, 'file')
-    ['test1.txt', 'test2.txt']
-    >>> search(index, '2')
-    ['test2.txt']
-    >>> search(index, 'carrot')
-    ['test1.txt', 'test2.txt']
-    >>> search(index, 'dog')
-    ['test2.txt']
-    >>> search(index, 'nope')
-    []
-    >>> search(index, 'apple carrot')
-    ['test1.txt']
-    >>> search(index, 'apple ball file')
-    ['test1.txt']
-    >>> search(index, 'apple ball nope')
-    []
-    """
     lt = []
     if ' ' in query:
         keys = query.split()
